@@ -1,0 +1,157 @@
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {
+  float: left;
+  width: 75%;
+}
+
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 25%;
+  padding-left: 20px;
+}
+
+/* Fake image */
+.fakeimg {
+  background-color: #aaa;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+   background-color: white;
+   padding: 20px;
+   margin-top: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+  margin-top: 20px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.brand-btn {
+  background-color: #ffbb00;
+  padding: 7px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: 0;
+  &:focus, &:hover {
+    outline: none;
+    box-shadow: none;
+    background-color: #ffbb00;
+    opacity: 0.8;
+    border: 0;
+  }
+}
+
+.filter-wrapper {
+  margin-bottom: 15px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  max-width: 70%;
+  margin: 0 auto 20px auto;
+  input {
+    border-radius: 5px;
+    border: #ccc 1px solid;
+    outline: none;
+    padding: 5px 10px;
+  }
+}
+.delete-blog {
+  position: absolute;
+  right: -29px;
+  top: 40px;
+  background: #cd1414;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  z-index: 0;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.edit-blog {
+  position: absolute;
+  background: #ffbb00;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  z-index: 0;
+  right: -29px;
+  top: 10px;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.blog-list {
+  max-width: 70%;
+  margin: 0 auto;
+  .blog-item {
+    background-color: #f3f3f3;
+    padding: 25px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    position: relative;
+    .blog-info {
+      text-decoration: none;
+      position: relative;
+      .blog-img {
+        margin-bottom: 15px;
+      }
+      .blog-new-badge {
+        position: absolute;
+        right: -20px;
+        top: -20px;
+        background-color: #ffbb00;
+        padding: 2px 5px;
+        color: #fff;
+        border-radius: 5px;
+      }
+      .blog-post-title {
+        font-size: 20px;
+        text-decoration: none;
+        color: #000;
+      }
+    }
+
+    .blog-extra-detail {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .blog-date {
+      display: flex;
+      justify-content: space-between;
+
+    }
+
+    .blog-description {
+
+    }
+  }
+}

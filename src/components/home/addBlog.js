@@ -1,15 +1,13 @@
-import { toBeEmpty } from "@testing-library/jest-dom/dist/matchers";
+// Add Article modal.
 import React, { useState } from "react";
 import { Modal, Button, Form } from 'react-bootstrap';
 
+// Services list.
 import { createArticle } from '../../services/article.patchServices';
+import { getArticle } from "../../services/article.getServices";
 
-function AddBlog({handleClose, show}) {
-
-  const [articleData, setArticleData] = useState({
-    title: '',
-    description: '',
-  });
+function AddBlog({handleClose, addShow, setAddShow, setArticles, articleData, setArticleData}) {
+  // Input change event.
   const inputsHandler = (e) =>{
     const { name, value } = e.target;
     setArticleData((prevState) => ({
@@ -17,6 +15,7 @@ function AddBlog({handleClose, show}) {
       [name]: value,
     }));
   }
+  // Button submit event.
   const handleSubmit = (event) => {
     if (articleData.length === 0) {
       console.log("Article can't be Empty.");
@@ -26,14 +25,21 @@ function AddBlog({handleClose, show}) {
         title:articleData.title,
         body: articleData.description,
       };
-      createArticle(createArticleData).then((res) => {
+      createArticle(createArticleData).then((res) => { // Call the Add Article service.
         if (res) {
-          console.log(res);
+          setAddShow(false);
           setArticleData({
             title: '',
             description: '',
           })
+          // Refreshing the Article list as per the new data.
+          getArticle().then((res) => { //  Call the Article list service.
+            if (res) {
+              setArticles(res.data)
+            }
+          });
         } else {
+          setAddShow(false);
           console.log('Res not Stored.');
         }
       });
@@ -42,9 +48,9 @@ function AddBlog({handleClose, show}) {
   }
   return (
     <section className="content-wrap">
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={addShow} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Create Article</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Form>

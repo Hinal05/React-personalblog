@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import "./login.scss";
 import { handleLogin, handleLogout, isLoggedIn } from '../../services/authService';
-import { navigate } from '@reach/router';
 
 function Login() {
 
@@ -23,7 +22,6 @@ function Login() {
           localStorage.setItem('username', JSON.stringify(username));
           setProcessing(false);
           setSuccess("You are now logged in");
-          navigate("/", {state: {message: 'You are now logged in'}});
           alert("success");
         }else {
           setProcessing(false)

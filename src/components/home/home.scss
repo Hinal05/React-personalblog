@@ -73,11 +73,12 @@
   justify-content: space-between;
   max-width: 70%;
   margin: 0 auto 20px auto;
-  input {
+  input, select {
     border-radius: 5px;
     border: #ccc 1px solid;
     outline: none;
     padding: 5px 10px;
+    margin-right: 5px;
   }
 }
 .delete-blog {
@@ -117,12 +118,12 @@
     border-radius: 5px;
     margin-bottom: 25px;
     position: relative;
+    .blog-img {
+      margin-bottom: 15px;
+    }
     .blog-info {
       text-decoration: none;
       position: relative;
-      .blog-img {
-        margin-bottom: 15px;
-      }
       .blog-new-badge {
         position: absolute;
         right: -20px;
@@ -144,13 +145,9 @@
       justify-content: space-between;
     }
 
-    .blog-date {
+    .blog-author {
       display: flex;
       justify-content: space-between;
-
-    }
-
-    .blog-description {
 
     }
   }

@@ -2,50 +2,29 @@ import React, {useState, useEffect} from "react";
 import { BrowserRouter as Router, Route, NavLink, Routes } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Button } from 'react-bootstrap';
 
-import { getLocalStorage } from "./services/helper-functions";
-
+// Import Components.
 import Home from "./components/home/home";
 import NotFound from "./components/notfound/notFound";
 import AddBlog from "./components/home/addBlog";
+import EditBlog from "./components/home/editBlog";
 import Login from "./components/login/login";
 import ContactUs from "./components/contact/contact";
 
-import { getAuthClient } from '../src/components/services/auth';
-
-const auth = getAuthClient();
-
 function App() {
+  // Modal states.
+  const [addShow, setAddShow] = useState(false);
+  const handleClose = () => setAddShow(false);
+  const [editShow, setEditShow] = useState(false);
+  const handleEditClose = () => setEditShow(false);
 
-  const [result, setResult] = useState({
-    success: null,
-    error: null,
-    message: '',
+  // List of Articles.
+  const [articles, setArticles] = useState([]);
+  // Selected Article.
+  const [articleData, setArticleData] = useState({
+    id: '',
+    title: '',
+    description: '',
   });
-
-  const defaultValues = {name: '', pass: ''};
-  const [loginValues, setLoginValues] = useState(defaultValues);
-
-  // Only need to do this on first mount.
-  useEffect(() => {
-    auth.isLoggedIn().then((res) => {
-      setLoggedIn(true);
-    })
-  }, []);
-
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  const [isSubmitting, setSubmitting] = useState(false);
-
-  // Only need to do this on first mount.
-  useEffect(() => {
-    auth.isLoggedIn().then((res) => {
-      setLoggedIn(true);
-    })
-  }, []);
-
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   return (
     <section className="content-wrap">
@@ -61,29 +40,23 @@ function App() {
               navbarScroll
               >
                 <NavLink to="/" className="nav-link">Home</NavLink>
-                <NavLink to="/contact" className="nav-link">ContactUs</NavLink>
-                {/* <NavLink to="/addBlog" className="nav-link hightlight">Add Blog</NavLink> */}
-                {!isLoggedIn ?
-                  <NavLink to="/login" className="nav-link">Sign In</NavLink> :
-                <>
-                  {/* <NavLink to="/addBlog">Create Post</NavLink> */}
-                  <NavLink to="/login" className="nav-link highlight" onClick={() => auth.logout().then(setLoggedIn(false))}>Logout</NavLink>
-                </>
-                }
+                {/* <NavLink to="/contact" className="nav-link">ContactUs</NavLink> */}
+                <NavLink to="/login" className="nav-link">Sign In</NavLink>
               </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
         <Routes>
-          {/* <Route path="/addBlog" exact element={<AddBlog/>} /> */}
-          <Route path="/" exact element={<Home setShow={setShow} handleShow={handleShow} isLoggedIn={isLoggedIn} result={result} />} />
+          <Route path="/" element={<Home setAddShow={setAddShow} setArticles={setArticles} articles={articles} setEditShow={setEditShow} editShow={editShow} setArticleData={setArticleData} />} />
           <Route path="*" element={<NotFound/>} />
-          <Route path="/contact" element={<ContactUs/>} />
-          <Route path='/login' element={<Login auth={auth} setLoginValues={setLoginValues} loginValues={loginValues} setResult={setResult} result={result} setLoggedIn={setLoggedIn} isLoggedIn={isLoggedIn} setSubmitting={setSubmitting} isSubmitting={isSubmitting} />} />
+          <Route path="/contact" exact element={<ContactUs/>} />
+          <Route path='/login' exact element={<Login />} />
         </Routes>
       </Router>
 
-      <AddBlog handleClose={handleClose} show={show} />
+      {/* Modal */}
+      <AddBlog handleClose={handleClose} addShow={addShow} setAddShow={setAddShow} setArticles={setArticles} setArticleData={setArticleData} articleData={articleData} />
+      <EditBlog handleEditClose={handleEditClose} editShow={editShow} setEditShow={setEditShow} setArticles={setArticles} setArticleData={setArticleData} articleData={articleData} />
     </section>
   )
 }

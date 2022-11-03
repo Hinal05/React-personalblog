@@ -1,15 +1,12 @@
-import { toBeEmpty } from "@testing-library/jest-dom/dist/matchers";
+// Edit Article modal.
 import React, { useState } from "react";
 import { Modal, Button, Form } from 'react-bootstrap';
+// Services list.
+import { editArticle } from '../../services/article.patchServices';
+import { getArticle } from "../../services/article.getServices";
 
-import { createArticle } from '../../services/article.patchServices';
-
-function AddBlog({handleClose, show}) {
-
-  const [articleData, setArticleData] = useState({
-    title: '',
-    description: '',
-  });
+function EditBlog({handleEditClose, editShow, articleData, setArticleData, setArticles, setEditShow}) {
+  // Input change event.
   const inputsHandler = (e) =>{
     const { name, value } = e.target;
     setArticleData((prevState) => ({
@@ -17,6 +14,7 @@ function AddBlog({handleClose, show}) {
       [name]: value,
     }));
   }
+  // Button submit event.
   const handleSubmit = (event) => {
     if (articleData.length === 0) {
       console.log("Article can't be Empty.");
@@ -24,16 +22,23 @@ function AddBlog({handleClose, show}) {
       let createArticleData = [];
       createArticleData = {
         title:articleData.title,
-        body: articleData.description,
+        body:articleData.desc,
       };
-      createArticle(createArticleData).then((res) => {
+      editArticle(createArticleData, articleData.id).then((res) => {
         if (res) {
-          console.log(res);
+          setEditShow(false);
           setArticleData({
             title: '',
             description: '',
           })
+          // Refreshing the Article list as per the new data.
+          getArticle().then((res) => { //  Call the Article list service.
+            if (res) {
+              setArticles(res.data)
+            }
+          });
         } else {
+          setEditShow(false);
           console.log('Res not Stored.');
         }
       });
@@ -42,46 +47,24 @@ function AddBlog({handleClose, show}) {
   }
   return (
     <section className="content-wrap">
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={editShow} onHide={handleEditClose} className="modal-lg">
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Edit Article</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Title</Form.Label>
-            <Form.Control type="email" placeholder="Enter title" name="title" onChange={inputsHandler} />
+            <Form.Control type="email" placeholder="Enter title" name="title" onChange={inputsHandler} value={articleData.title} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" rows={3} placeholder="Enter Description" name="description" onChange={inputsHandler} />
+            <Form.Control as="textarea" rows={6} placeholder="Enter Description" name="desc" onChange={inputsHandler} value={articleData.desc} />
           </Form.Group>
-          {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Image</Form.Label>
-            <Form.Control type="file" />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Author</Form.Label>
-            <Form.Select aria-label="Default select example">
-              <option>Open this select menu</option>
-              <option value="Author1">Author1</option>
-              <option value="Author2">Author2</option>
-              <option value="Author3">Author3</option>
-            </Form.Select>
-          </Form.Group> */}
-          {/* {['checkbox'].map((type) => (
-            <div key={`default-${type}`} className="mb-3">
-              <Form.Check
-                type={type}
-                id={`default-${type}`}
-                label={`Agree`}
-              />
-            </div>
-          ))} */}
         </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleEditClose}>
             Close
           </Button>
           <Button className="brand-btn" onClick={handleSubmit}>
@@ -93,4 +76,4 @@ function AddBlog({handleClose, show}) {
   )
 }
 
-export default AddBlog;
+export default EditBlog;

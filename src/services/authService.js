@@ -78,7 +78,6 @@ export const handleLogin = async (username, password) => {
   */
 export const handleLogout = async () => {
   const drupallogout = await drupalLogout();
-  console.log(drupallogout);
   localStorage.removeItem('access-token');
   // navigate('/user/login');
 };
@@ -122,6 +121,7 @@ export const fetchOauthToken = async (username, password) => {
 * Helper function to fetch and store tokens in local storage.
 **/
 const fetchSaveOauthToken = async (username, password) => {
+  debugger;
   const response = await fetchOauthToken(username, password);
   if (response) {
     return saveToken(response);

@@ -7,7 +7,8 @@ const constants = Object.freeze({
   RELATIONSHIPS: "/relationships",
   ALL: "/all",
   PARAGRAPH: "/paragraph",
-  ARTICLE: "/article"
+  ARTICLE: "/article",
+  INCLUDED: "?include=uid"
 });
 
 export default constants;

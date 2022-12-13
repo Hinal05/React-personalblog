@@ -93,7 +93,7 @@ function Login() {
           }
           </div>
           <p className="forgot-password text-right mt-2">
-            Forgot <a href="#" className='link'>password?</a>
+            Forgot <a className='link'>password?</a>
           </p>
         </div>
       </form>

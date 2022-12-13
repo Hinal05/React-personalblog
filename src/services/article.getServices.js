@@ -40,10 +40,10 @@ export const getArticle = async () => {
     });
 };
 
-export function transformJsonGetUser(obj, id) {
+export const transformJsonGetUser = (obj, id) => {
   let userName;
   obj.included.forEach(function (item) {
-    if (item.id == id && item.type === 'user--user') {
+    if (item.id === id && item.type === 'user--user') {
       userName = item.attributes.display_name;
     }
   })

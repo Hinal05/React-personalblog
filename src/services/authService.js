@@ -79,6 +79,7 @@ export const handleLogin = async (username, password) => {
 export const handleLogout = async () => {
   const drupallogout = await drupalLogout();
   localStorage.removeItem('access-token');
+  localStorage.clear();
   // navigate('/user/login');
 };
 

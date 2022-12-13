@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import Button from 'react-bootstrap/Button';
 // Services list.
-import { getArticle, transformJsonGetUser, currentUser } from "../../services/article.getServices";
+import { getArticle, transformJsonGetUser } from "../../services/article.getServices";
 import { deleteArticle } from "../../services/article.patchServices";
 
 function Home({setAddShow, articles, setArticles, setEditShow, setArticleData}) {
@@ -25,13 +25,9 @@ function Home({setAddShow, articles, setArticles, setEditShow, setArticleData}) 
         setArticles(res.data)
       }
     });
-  }, [reRender]);
+  }, [reRender, setArticles]);
 
-  const username = localStorage.getItem('username');
-  if (username) {
-    var user = username.replace(/[^a-zA-Z ]/g, "");
-  }
-
+  const currentUserName = JSON.parse(localStorage.getItem('username'));
 
   // Delete the item into the list.
   const deleteItem = (id) => {
@@ -65,7 +61,14 @@ function Home({setAddShow, articles, setArticles, setEditShow, setArticleData}) 
               "type": val.type,
               "attributes":{
                 "title": val.attributes.title,
-                "body": val.attributes.body
+                "body": val.attributes.body,
+              },
+              "relationships":{
+                "uid": {
+                  "data": {
+                    "id": val.relationships.uid.data.id
+                  }
+                }
               }
             }
             lData.push(x);
@@ -108,24 +111,40 @@ function Home({setAddShow, articles, setArticles, setEditShow, setArticleData}) 
 
           {x.length > 0 && (
             <div className="blog-list">
-              {x.map((val, key) => (
-                <div className="blog-item" key={val.id}>
-                  <button className="delete-blog" onClick={() => {deleteItem(val.id)}}><FaTrash /></button>
-                  <button onClick={() => {editItem(val)}} className="edit-blog"><FaEdit /></button>
-                  {/* <div className="blog-img"><img src="https://i.pinimg.com/474x/af/62/06/af6206f25f1b5dab2f8d932edd0affd5--heart-of-gold-peacock-feathers.jpg" alt="" /></div> */}
-                  <div className="blog-info">
-                    <h2 className="blog-post-title">{`${val.attributes.title}`}</h2>
-                    <div className="blog-description">
-                      {val.attributes.body.value}
-                    </div>
-                    <div className="blog-author">
-                      <strong>-
-                        {transformJsonGetUser(obj,val.relationships.uid.data.id)}
-                      </strong>
+              {x.map((val, key) => {
+                return ( transformJsonGetUser(obj,val?.relationships?.uid?.data?.id) === currentUserName ?
+                  <div className="blog-item" key={val.id}>
+                    <button className="delete-blog" onClick={() => {deleteItem(val.id)}}><FaTrash /></button>
+                    <button onClick={() => {editItem(val)}} className="edit-blog"><FaEdit /></button>
+                    {/* <div className="blog-img"><img src="https://i.pinimg.com/474x/af/62/06/af6206f25f1b5dab2f8d932edd0affd5--heart-of-gold-peacock-feathers.jpg" alt="" /></div> */}
+                    <div className="blog-info">
+                      <h2 className="blog-post-title">{`${val.attributes.title}`}</h2>
+                      <div className="blog-description">
+                        {val.attributes.body.value}
+                      </div>
+                      <div className="blog-author">
+                        <strong>-
+                          {transformJsonGetUser(obj,val?.relationships?.uid?.data?.id)}
+                        </strong>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                :
+                  <div className="blog-item" key={val.id}>
+                    <div className="blog-info">
+                      <h2 className="blog-post-title">{`${val.attributes.title}`}</h2>
+                      <div className="blog-description">
+                        {val.attributes.body.value}
+                      </div>
+                      <div className="blog-author">
+                        <strong>-
+                          {transformJsonGetUser(obj,val?.relationships?.uid?.data?.id)}
+                        </strong>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           )}
         </Container>

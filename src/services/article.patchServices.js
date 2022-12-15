@@ -29,18 +29,28 @@ export const deleteArticle = async (id) => {
 }
 
 // Api for create post.
-export const createArticle = async (createArticleData) => {
+export const createArticle = async (file_entity_id, createArticleData) => {
+  debugger;
+  if (!file_entity_id) return;
   var obj = JSON.parse(localStorage.getItem('access-token'));
   const token = obj.access_token;
   const url = new URL(
-    `${constants.BASE_URL}${constants.JSONAPI}${constants.NODE}${constants.ARTICLE}`
+    `${constants.BASE_URL}${constants.JSONAPI}${constants.NODE}${constants.ARTICLE}${constants.INCLUDED}`
   );
   const data = {
     data: {
       type: "node--article",
       attributes: {
         ...createArticleData,
-      }
+      },
+      relationships: {
+        field_media_image: {
+          data: {
+            type: "file--file",
+            id: file_entity_id,
+          },
+        },
+      },
     },
   };
   const opts = {

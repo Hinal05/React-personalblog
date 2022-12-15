@@ -5,6 +5,8 @@ const constants = Object.freeze({
   FIELD_IMAGE_FILE: "/field_media_image",
   NODE: "/node",
   RELATIONSHIPS: "/relationships",
+  TAXONOMY: "/taxonomy_term",
+  TOPICS: "/topics",
   ALL: "/all",
   PARAGRAPH: "/paragraph",
   ARTICLE: "/article",

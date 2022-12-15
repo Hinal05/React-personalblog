@@ -67,7 +67,7 @@ function AddBlog({handleClose, addShow, setAddShow, setArticles, articleData, se
             <Form.Label>Description</Form.Label>
             <Form.Control as="textarea" rows={3} placeholder="Enter Description" name="description" onChange={inputsHandler} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Image</Form.Label>
             <Form.Control type="file" />
           </Form.Group>
@@ -82,7 +82,7 @@ function AddBlog({handleClose, addShow, setAddShow, setArticles, articleData, se
             className="autocomplete-feilds"
             required
             renderInput={(params) => <TextField {...params} label="Tags" />}
-          />
+          /> */}
           {/* <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Author</Form.Label>
             <Form.Select aria-label="Default select example">

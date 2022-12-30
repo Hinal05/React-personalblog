@@ -11,6 +11,8 @@ import Login from "./components/login/login";
 import ContactUs from "./components/contact/contact";
 
 function App() {
+  const [processing, setProcessing] = useState(false);
+  const [success, setSuccess] = useState(null);
   // Modal states.
   const [addShow, setAddShow] = useState(false);
   const handleClose = () => setAddShow(false);
@@ -24,7 +26,10 @@ function App() {
     id: '',
     title: '',
     description: '',
+    image: '',
   });
+  const [tagsData, setTagsData] = useState([]);
+  const [imageData, setImageData] = useState('');
 
   return (
     <section className="content-wrap">
@@ -42,21 +47,22 @@ function App() {
                 <NavLink to="/" className="nav-link">Home</NavLink>
                 {/* <NavLink to="/contact" className="nav-link">ContactUs</NavLink> */}
                 <NavLink to="/login" className="nav-link">Sign In</NavLink>
+                {/* <NavLink to="/login" className="nav-link">Logout</NavLink> */}
               </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
         <Routes>
-          <Route path="/" element={<Home setAddShow={setAddShow} setArticles={setArticles} articles={articles} setEditShow={setEditShow} editShow={editShow} setArticleData={setArticleData} />} />
+          <Route path="/" element={<Home setAddShow={setAddShow} setArticles={setArticles} articles={articles} setEditShow={setEditShow} editShow={editShow} setArticleData={setArticleData} setTagsData={setTagsData} tagsData={tagsData} />} />
           <Route path="*" element={<NotFound/>} />
           <Route path="/contact" exact element={<ContactUs/>} />
-          <Route path='/login' exact element={<Login />} />
+          <Route path='/login' exact element={<Login processing={processing} setProcessing={setProcessing} success={success} setSuccess={setSuccess} />} />
         </Routes>
       </Router>
 
       {/* Modal */}
-      <AddBlog handleClose={handleClose} addShow={addShow} setAddShow={setAddShow} setArticles={setArticles} setArticleData={setArticleData} articleData={articleData} />
-      <EditBlog handleEditClose={handleEditClose} editShow={editShow} setEditShow={setEditShow} setArticles={setArticles} setArticleData={setArticleData} articleData={articleData} />
+      <AddBlog handleClose={handleClose} addShow={addShow} setAddShow={setAddShow} setArticles={setArticles} setArticleData={setArticleData} articleData={articleData} setTagsData={setTagsData} tagsData={tagsData} setImageData={setImageData} imageData={imageData} />
+      <EditBlog handleEditClose={handleEditClose} editShow={editShow} setEditShow={setEditShow} setArticles={setArticles} setArticleData={setArticleData} articleData={articleData} setTagsData={setTagsData} tagsData={tagsData} />
     </section>
   )
 }

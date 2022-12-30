@@ -29,7 +29,7 @@ export const deleteArticle = async (id) => {
 }
 
 // Api for create post.
-export const createArticle = async (createArticleData) => {
+export const createArticle = async (createArticleData, tagData) => {
   debugger;
   var obj = JSON.parse(localStorage.getItem('access-token'));
   const token = obj.access_token;
@@ -42,6 +42,11 @@ export const createArticle = async (createArticleData) => {
       attributes: {
         ...createArticleData,
       },
+      relationships: {
+        field_tags: {
+          data: tagData,
+        },
+      }
     },
   };
   const opts = {
@@ -57,12 +62,12 @@ export const createArticle = async (createArticleData) => {
     if (res.status === 201) {
       return data;
     }
-    throw new Error(data?.errors?.title);
+    throw new Error(data?.errors?.name);
   });
 };
 
 // Api for edit post.
-export const editArticle = async (createArticleData, id) => {
+export const editArticle = async (createArticleData, id, tagData) => {
   var obj = JSON.parse(localStorage.getItem('access-token'));
   const token = obj.access_token;
   const url = new URL(
@@ -74,6 +79,11 @@ export const editArticle = async (createArticleData, id) => {
       id: id,
       attributes: {
         ...createArticleData,
+      },
+      relationships: {
+        field_tags: {
+          data: tagData,
+        },
       }
     }
   };

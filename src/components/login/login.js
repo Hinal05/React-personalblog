@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./login.scss";
 import { handleLogin, handleLogout, isLoggedIn } from '../../services/authService';
+import { useNavigate } from 'react-router-dom';
 
-function Login() {
-
-  const [processing, setProcessing] = useState(false)
+const Login = ({processing, setProcessing, success, setSuccess}) => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
-  const [success, setSuccess] = useState(null)
   const handleSubmit = (event) => {
     event.preventDefault()
     setProcessing(true)
@@ -23,7 +22,9 @@ function Login() {
           setProcessing(false);
           setSuccess("You are now logged in");
           alert("success");
-        }else {
+          // navigate('/');
+          console.log(success, processing, 'hinal');
+        } else {
           setProcessing(false)
           setError("User name and password doesn't exist")
           alert("error");
@@ -71,7 +72,7 @@ function Login() {
               </div>
             </>
           }
-          <div className="d-grid gap-2 mt-3">
+          {/* <div className="d-grid gap-2 mt-3">
           {
             processing ?
               <div className="text-center">Loading...</div>
@@ -91,10 +92,24 @@ function Login() {
                   Login
                 </button>
           }
-          </div>
-          <p className="forgot-password text-right mt-2">
+          </div> */}
+          {success ? 'success' : 'not success'}<br/>
+          {processing ? 'processing' : 'not processing'}
+          <button
+            onClick={handleLogout}
+            className="btn btn-primary brand-btn"
+            type="submit">
+            Logout
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="btn btn-primary brand-btn"
+            type="submit">
+            Login
+          </button>
+          {/* <p className="forgot-password text-right mt-2">
             Forgot <a className='link'>password?</a>
-          </p>
+          </p> */}
         </div>
       </form>
     </div>
@@ -165,4 +180,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Login;

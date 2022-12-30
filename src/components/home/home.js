@@ -4,10 +4,12 @@ import { Container } from 'react-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import Button from 'react-bootstrap/Button';
 // Services list.
-import { getArticle, transformJsonGetUser } from "../../services/article.getServices";
+import { getArticle } from "../../services/article.getServices";
+import { transformJsonGetUser } from "../../services/helper-functions";
 import { deleteArticle } from "../../services/article.patchServices";
+import jsonapi from "jsonapi-parse";
 
-function Home({setAddShow, articles, setArticles, setEditShow, setArticleData}) {
+function Home({setAddShow, articles, setArticles, setEditShow, setArticleData, setTagsData}) {
   // Search Article state.
   const [searchArticle, setSearchArticle] = useState([]);
   // Rerendering the useState after deleting the item.
@@ -23,6 +25,7 @@ function Home({setAddShow, articles, setArticles, setEditShow, setArticleData}) 
       if (res) {
         setObj(res);
         setArticles(res.data)
+        const apiData = jsonapi.parse(res);
       }
     });
   }, [reRender, setArticles]);
@@ -40,8 +43,10 @@ function Home({setAddShow, articles, setArticles, setEditShow, setArticleData}) 
     setArticleData({
       id: val.id,
       title: val.attributes.title,
-      desc: val.attributes.body.value
+      desc: val.attributes.body.value,
+      // image: val.relationships.field_image.links,
     });
+    setTagsData(val.attributes.field_tags)
     setEditShow(true);
   }
 
@@ -116,11 +121,16 @@ function Home({setAddShow, articles, setArticles, setEditShow, setArticleData}) 
                   <div className="blog-item" key={val.id}>
                     <button className="delete-blog" onClick={() => {deleteItem(val.id)}}><FaTrash /></button>
                     <button onClick={() => {editItem(val)}} className="edit-blog"><FaEdit /></button>
-                    {/* <div className="blog-img"><img src="https://i.pinimg.com/474x/af/62/06/af6206f25f1b5dab2f8d932edd0affd5--heart-of-gold-peacock-feathers.jpg" alt="" /></div> */}
+                    <div className="blog-img"><img src={`${val.relationships.field_image.links}`} height="200" width="100%" alt="" /></div>
                     <div className="blog-info">
                       <h2 className="blog-post-title">{`${val.attributes.title}`}</h2>
                       <div className="blog-description">
                         {val.attributes.body.value}
+                        <ul>
+                          {(val.attributes.field_tags).map((item, index) => {
+                            return <li key={index}>{item.name}</li>
+                          })}
+                        </ul>
                       </div>
                       <div className="blog-author">
                         <strong>-
@@ -131,10 +141,16 @@ function Home({setAddShow, articles, setArticles, setEditShow, setArticleData}) 
                   </div>
                 :
                   <div className="blog-item" key={val.id}>
+                    <div className="blog-img"><img src={`${val.relationships.field_image.links}`} height="200" width="100%" alt="" /></div>
                     <div className="blog-info">
                       <h2 className="blog-post-title">{`${val.attributes.title}`}</h2>
                       <div className="blog-description">
                         {val.attributes.body.value}
+                        <ul className="d-flex">
+                          {(val.attributes.field_tags).map((item, index) => {
+                            return <li key={index}>{item.name}</li>
+                          })}
+                        </ul>
                       </div>
                       <div className="blog-author">
                         <strong>-

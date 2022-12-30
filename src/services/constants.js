@@ -6,11 +6,11 @@ const constants = Object.freeze({
   NODE: "/node",
   RELATIONSHIPS: "/relationships",
   TAXONOMY: "/taxonomy_term",
-  TOPICS: "/topics",
+  TAGS: "/tags",
   ALL: "/all",
   PARAGRAPH: "/paragraph",
   ARTICLE: "/article",
-  INCLUDED: "?include=uid"
+  INCLUDED: "?include=uid,field_tags,field_image",
 });
 
 export default constants;

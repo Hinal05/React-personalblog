@@ -30,7 +30,6 @@ export const deleteArticle = async (id) => {
 
 // Api for create post.
 export const createArticle = async (createArticleData, tagData) => {
-  debugger;
   var obj = JSON.parse(localStorage.getItem('access-token'));
   const token = obj.access_token;
   const url = new URL(

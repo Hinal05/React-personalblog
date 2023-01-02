@@ -146,7 +146,7 @@ function Home({setAddShow, articles, setArticles, setEditShow, setArticleData, s
                       <h2 className="blog-post-title">{`${val.attributes.title}`}</h2>
                       <div className="blog-description">
                         {val.attributes.body.value}
-                        <ul className="d-flex">
+                        <ul>
                           {(val.attributes.field_tags).map((item, index) => {
                             return <li key={index}>{item.name}</li>
                           })}

@@ -22,8 +22,7 @@ const Login = ({processing, setProcessing, success, setSuccess}) => {
           setProcessing(false);
           setSuccess("You are now logged in");
           alert("success");
-          // navigate('/');
-          console.log(success, processing, 'hinal');
+          navigate('/');
         } else {
           setProcessing(false)
           setError("User name and password doesn't exist")
@@ -35,12 +34,20 @@ const Login = ({processing, setProcessing, success, setSuccess}) => {
 
   return (
     <div className="Auth-form-container">
-      <form className="Auth-form" onSubmit={handleSubmit}>
+      <form className="Auth-form">
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Sign In</h3>
-          {error && <div className="form-error"><p>{error}</p></div>}
-          {success && <p>{success}</p>}
-          {success ? ''
+          {/* {error && <div className="form-error"><p>{error}</p></div>}
+          {success && <p>{success}</p>} */}
+          {success ? 'success' : 'not success'}<br/>
+          {processing ? 'processing' : 'not processing'}
+          {success ?
+            <button
+              onClick={handleLogout}
+              className="btn btn-primary brand-btn"
+              type="submit">
+              Logout
+            </button>
           :
             <>
               <div className="form-group mt-3">
@@ -70,43 +77,15 @@ const Login = ({processing, setProcessing, success, setSuccess}) => {
                   }
                 />
               </div>
+              <button
+                onClick={handleSubmit}
+                className="btn btn-primary brand-btn"
+                type="submit">
+                Login
+              </button>
             </>
           }
-          {/* <div className="d-grid gap-2 mt-3">
-          {
-            processing ?
-              <div className="text-center">Loading...</div>
-              :
-              success && isLoggedIn() !== null ?
-                <button
-                  onClick={handleLogout}
-                  className="btn btn-primary brand-btn"
-                  type="submit">
-                  Logout
-                </button>
-                :
-                <button
-                  onClick={handleSubmit}
-                  className="btn btn-primary brand-btn"
-                  type="submit">
-                  Login
-                </button>
-          }
-          </div> */}
-          {success ? 'success' : 'not success'}<br/>
-          {processing ? 'processing' : 'not processing'}
-          <button
-            onClick={handleLogout}
-            className="btn btn-primary brand-btn"
-            type="submit">
-            Logout
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="btn btn-primary brand-btn"
-            type="submit">
-            Login
-          </button>
+
           {/* <p className="forgot-password text-right mt-2">
             Forgot <a className='link'>password?</a>
           </p> */}

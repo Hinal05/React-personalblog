@@ -122,7 +122,6 @@ export const fetchOauthToken = async (username, password) => {
 * Helper function to fetch and store tokens in local storage.
 **/
 const fetchSaveOauthToken = async (username, password) => {
-  debugger;
   const response = await fetchOauthToken(username, password);
   if (response) {
     return saveToken(response);
@@ -177,7 +176,6 @@ const drupalLogIn = async (username, password) => {
 const drupalLogout = async () => {
   const oauthToken = await isLoggedIn();
   const logoutoken = oauthToken.access_token;
-  debugger;
   if (logoutoken) {
     const res = await fetch(`https://decouple-drupal.ddev.site/user/logout?_format=json`, {
       method: 'GET',
